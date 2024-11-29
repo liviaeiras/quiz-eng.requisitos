@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Interativo</title>
+  <style>
+    /* Estilos Gerais */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212; /* Fundo modo escuro */
+      color: #E0E0E0; /* Texto claro */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      width: 90%;
+      max-width: 600px;
+      background-color: #1E1E2F; /* Fundo do container */
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #76c7f7; /* Azul claro */
+      margin-bottom: 20px;
+    }
+
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .options li {
+      margin-bottom: 15px;
+    }
+
+    .options button {
+      width: 100%;
+      padding: 10px 15px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #005c99; /* Azul escuro */
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .options button:hover {
+      background-color: #007acc; /* Azul mais claro */
+    }
+
+    .feedback {
+      text-align: center;
+      font-size: 1.2em;
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .correct {
+      background-color: #006400; /* Verde escuro */
+      color: #fff;
+    }
+
+    .incorrect {
+      background-color: #8B0000; /* Vermelho escuro */
+      color: #fff;
+    }
+
+    .result {
+      text-align: center;
+      font-size: 1.3em;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #004466; /* Azul escuro */
+      color: #e0f7fa; /* Texto claro */
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #76c7f7; /* Azul claro */
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h1>Quiz eng.requisitos</h1>
+  <div id="quiz">
+    <!-- Perguntas serão injetadas aqui pelo JavaScript -->
+  </div>
+  <div class="result" id="result"></div>
+</div>
+
+<footer>
+  © 2024 Lívia Eiras. Todos os direitos reservados.
+</footer>
+
+<script>
+  const questions = [
+    {
+      question: "1. Considere as afirmativas: \nI - Arquitetura de software é a estrutura organizacional do software.\nII - Uma arquitetura pode ser recursivamente decomposta em partes que interagem através de atributos.\nIII - Um SSOO projetado em camadas pode ter uma arquitetura aberta ou uma arquitetura fechada.\nSão corretas as afirmativas:",
+      options: [
+        "a) Somente I e II.",
+        "b) Somente I e III.",
+        "c) Somente II e III.",
+        "d) Todas, I, II e III."
+      ],
+      correct: 1
+    },
+    {
+      question: "2. É sabido que a Pré-Condição e a Pós-Condição indicam o que vem antes e depois dos Casos de Uso. Qual é a sequência correta?",
+      options: [
+        "a) B - B - B - A - A - A",
+        "b) A - A - A - B - B - B",
+        "c) B - A - B - A - B - A",
+        "d) A - B - A - B - A - B"
+      ],
+      correct: 0
+    },
+    {
+      question: "3. Sobre Camada de persistência: \nI - O objetivo de uma camada de persistência é isolar os objetos do SSOO de mudanças no mecanismo de armazenamento.\nII - SQL é a linguagem de manipulação de dados.\nIII - Hoje em dia os principais SGBD são sistemas de gerência de bancos de dados objeto-relacionais.\nSão corretas as opções:",
+      options: [
+        "a) Somente I e II.",
+        "b) Somente I e III.",
+        "c) Todas, I, II e III.",
+        "d) Somente II e III."
+      ],
+      correct: 2
+    },
+    {
+      question: "4. Qual é uma linguagem padrão para visualizar, especificar, construir e documentar os artefatos de software?",
+      options: [
+        "a) UML",
+        "b) Java",
+        "c) C++",
+        "d) Python"
+      ],
+      correct: 0
+    },
+    {
+      question: "5. Sobre a Modelagem de estados: \nI - Cada objeto participante de um sistema de software orientado a objetos se encontra em um estado particular.\nII - Estados podem ser vistos como uma abstração dos atributos e associações de um objeto.\nIII - Através da análise das transições entre estados dos objetos de um sistema de software, podem-se prever todas as possíveis operações realizadas, em função de eventos que possam ocorrer.\nAs afirmações corretas são:",
+      options: [
+        "a) Somente I e II.",
+        "b) Somente I e III.",
+        "c) Somente II e III.",
+        "d) Todas, I, II e III."
+      ],
+      correct: 3
+    },
+    {
+      question: "6. Quais são os três principais tipos de requisitos em Engenharia de Requisitos?",
+      options: [
+        "a) Requisitos funcionais, não funcionais e técnicos.",
+        "b) Requisitos técnicos, do usuário e de software.",
+        "c) Requisitos do negócio, técnicos e operacionais.",
+        "d) Requisitos do negócio, do usuário e de software."
+      ],
+      correct: 3
+    },
+    {
+      question: "7. Sobre diagramas de atividade: Qual é a relação entre casos de uso e diagramas de atividade?",
+      options: [
+        "a) Diagramas de atividade são feitos antes dos casos de uso.",
+        "b) Diagramas de atividade descrevem atividades internas enquanto casos de uso descrevem a interação do ator.",
+        "c) Casos de uso são equivalentes a diagramas de atividades.",
+        "d) Nenhuma das alternativas."
+      ],
+      correct: 1
+    }
+  ];
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  const quizContainer = document.getElementById("quiz");
+  const resultContainer = document.getElementById("result");
+
+  function loadQuestion() {
+    const questionData = questions[currentQuestionIndex];
+    quizContainer.innerHTML = `
+      <div class="question">${questionData.question.replace(/\n/g, '<br>')}</div>
+      <ul class="options">
+        ${questionData.options
+          .map(
+            (option, index) =>
+              `<li><button onclick="checkAnswer(${index})">${option}</button></li>`
+          )
+          .join("")}
+      </ul>
+      <div id="feedback" class="feedback"></div>
+    `;
+  }
+
+  function checkAnswer(selectedIndex) {
+    const questionData = questions[currentQuestionIndex];
+    const feedback = document.getElementById("feedback");
+
+    if (selectedIndex === questionData.correct) {
+      feedback.textContent = "Resposta correta!";
+      feedback.className = "feedback correct";
+      score++;
+    } else {
+      feedback.textContent = "Resposta incorreta.";
+      feedback.className = "feedback incorrect";
+    }
+
+    setTimeout(() => {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }, 2000);
+  }
+
+  function showResult() {
+    quizContainer.style.display = "none";
+    resultContainer.style.display = "block";
+    resultContainer.innerHTML = `Você acertou ${score} de ${questions.length} questões!`;
+  }
+
+  // Carrega a primeira pergunta
+  loadQuestion();
+</script>
+
+</body>
+</html>
